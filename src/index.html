@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Urban Marginal</title>
+	<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+	<style></style>
+</head>
+<body style="overflow: hidden;">
+<main class="container-fluid"></main>
+<div class="top-bar"></div>
+<script src="../node_modules/popper.js/dist/umd/popper.js"></script>
+<script>
+	window.$ = window.jQuery = window.jQuery = require('jquery');
+	window.Tether = require('tether');
+	window.Bootstrap = require('bootstrap');
+
+	require('../renderer');
+	const { Controle } = require('../src/modules/mvc/controllers');
+	new Controle(document);
+</script>
+</body>
+</html>

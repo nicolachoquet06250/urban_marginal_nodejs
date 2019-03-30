@@ -1,0 +1,34 @@
+{
+  "name": "application",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . my-electron-app --overwrite --platform=darwin --arch=x64 --icon=./src/images/flower.png --prune=true --out=release-builds",
+    "package-win": "electron-packager . my-electron-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=./src/images/flower.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"My Éléctron App\"",
+    "package-linux": "electron-packager . my-electron-app --overwrite --asar=true --platform=linux --arch=x64 --icon=./src/images/flower.png --prune=true --out=release-builds"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^4.0.7",
+    "electron-packager": "^13.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.7",
+    "bootstrap": "^4.3.1",
+    "tether": "^1.4.5",
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "threads": "^0.12.1"
+  }
+}
