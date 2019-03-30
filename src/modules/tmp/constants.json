@@ -1,1 +1,0 @@
-{"tmp":{"debugButton":true},"argv":["client"],"singletons":{"ServerSocket":null,"ClientSocket":{"type":"singleton","package":"mvc.utils","class":"ClientSocket","data":{"port":null,"ip":null}}}}
