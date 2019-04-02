@@ -10,15 +10,9 @@ class ServeurSocket {
 	}
 
 	construct(recepteur, port) {
-		// let http = require('http');
-
 		this.recepteur = recepteur;
 		this.port = port;
 
-		// Chargement du fichier index.html affiché au client
-		// let  server = http.createServer();
-
-		// this.server = require('socket.io').listen(server);
 		this.server = require('socket.io')(this.port);
 
 		this.server.of('/urban_marginal').on('connection', socket => {
@@ -26,11 +20,13 @@ class ServeurSocket {
 			socket.emit('response', 'Vous êtes bien connecté !');
 			socket.broadcast.emit('broadcast', 'Un client vient de se connecter !');
 
+			// message reception gestion
 			socket.on('message', message => {
 				console.log(message);
 				socket.emit('response', 'tu m\'à envoyé ' + message);
 			});
 
+			// client disconnect gestion
 			socket.on('disconnect', () => {
 				alert('un utilisateur est déconnecté');
 				socket.broadcast.emit('broadcast', 'un utilisateur est déconnecté');
@@ -46,6 +42,15 @@ class ServeurSocket {
 
 	sendResponseOnBroadcast(message) {
 		this.server.broadcast.emit('broadcast', message);
+	}
+
+	send(type, message) {
+		if(type === Connection.RESPONSE) {
+			this.sendResponse(message);
+		}
+		else if(type === Connection.BROADCAST) {
+			this.sendResponseOnBroadcast(message);
+		}
 	}
 
 	constructor() {
@@ -64,17 +69,21 @@ class ClientSocket {
 		return new ClientSocket();
 	}
 
-	construct(ip, port) {
+	construct(ip, port, recepteur) {
 		this.ip = ip;
 		this.port = port;
+		this.recepteur = recepteur;
 		let io = require('socket.io-client');
 
+		// connection
 		this.client = io.connect(`http://${ip}:${port}/urban_marginal`);
 
+		// response server reception gestion
 		this.client.on('response', message => {
 			console.log(message);
 		});
 
+		// broadcast message reception gestion
 		this.client.on('broadcast', message => {
 			console.log('broadcast: ' + message);
 		});
@@ -86,6 +95,10 @@ class ClientSocket {
 		this.client.emit('message', message);
 	}
 
+	send(type, message) {
+		if(Connection.MESSAGE) this.sendMessage(message);
+	}
+
 	constructor() {
 		this.port = null;
 		this.ip = null;
@@ -94,8 +107,29 @@ class ClientSocket {
 }
 
 class Connection {
+	static get BROADCAST() {
+		return 'broadcast';
+	}
+
+	static get MESSAGE() {
+		return 'message';
+	}
+
+	static get RESPONSE() {
+		return 'response';
+	}
+
+	get isServer() {
+		return this.socket instanceof ServeurSocket;
+	}
+
 	constructor(socket, recepteur) {
 		this.recepteur = recepteur;
+		this.socket = socket;
+	}
+
+	send(message, type = 'broadcast') {
+		this.socket.send(type, message);
 	}
 }
 
