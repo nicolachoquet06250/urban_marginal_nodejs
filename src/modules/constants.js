@@ -1,7 +1,7 @@
 'use strict';
 let fs = require('fs');
 
-let constants_path = `${__dirname}/tmp/constants.json`;
+let constants_path = `${__dirname}/tmp/constants_${process.pid}.json`;
 
 let createRecursiveDir = path => {
 	let dirs = path.split('/');
@@ -67,7 +67,6 @@ let setConstant = (key, value) => {
 	eval(`let constants = getConstants(); 
 	constants.${keys.join('.')} = value;
 	require('fs').writeFileSync(constants_path, JSON.stringify(constants))`);
-	// fs.writeFileSync(constants_path, JSON.stringify(constants));
 };
 
 let resetConstants = () => {

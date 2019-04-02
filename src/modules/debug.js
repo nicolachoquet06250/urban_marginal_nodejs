@@ -1,7 +1,6 @@
 'use strict';
 
 let addDebugButton = () => {
-	require('./constants').setConstant('tmp.debugButton', true);
 	document.querySelectorAll('.top-bar').forEach(elem => {
 		let button = document.createElement('button');
 		button.setAttribute('type', 'button');
@@ -15,9 +14,7 @@ let addDebugButton = () => {
 module.exports = app => {
 	let conf = require('./configs');
 
-	let constants = require('./constants');
-
-	if(!constants.exists('tmp.debugButton') || !constants.getConstant('tmp.debugButton')) {
+	if(require('./configs').debug) {
 		addDebugButton();
 	}
 

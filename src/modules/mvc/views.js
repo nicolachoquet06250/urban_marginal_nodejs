@@ -1,8 +1,7 @@
 'use strict';
 
 let bootstrapElements = require('../bootstrapElement');
-const { Controle } = require('./controllers');
-const { app, BrowserWindow } = require('electron').remote;
+const { BrowserWindow } = require('electron').remote;
 
 class EntreeJeu {
 	constructor(document, controle) {
@@ -132,6 +131,7 @@ class EntreeJeu {
 	}
 
 	btnExit_click() {
+		require('../constants').resetConstants();
 		BrowserWindow.getFocusedWindow().close();
 	}
 }
